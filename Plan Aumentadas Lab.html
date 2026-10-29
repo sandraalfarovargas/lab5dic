@@ -1,0 +1,231 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Plan Aumentadas Lab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600&display=swap">
+<style>
+/* Layout: una columna de lectura, bloques por prioridad con barra de progreso global */
+:root{
+  --bg:#f6f4f8; --surface:#ffffff; --fg:#1f1a24; --muted:#6b6274; --line:#e3dde8;
+  --accent:#8a2b6e; --accent-soft:#f3e4ee; --done:#2f7d5b; --urgent:#b4441f; --urgent-soft:#fbe9e2;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"Figtree", system-ui, -apple-system, sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#17131a; --surface:#211b25; --fg:#f1ecf4; --muted:#a69cae; --line:#352c3b;
+  --accent:#e08ac4; --accent-soft:#3a2234; --done:#6fcf9f; --urgent:#f0946f; --urgent-soft:#3d2219; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#17131a; --surface:#211b25; --fg:#f1ecf4; --muted:#a69cae; --line:#352c3b;
+  --accent:#e08ac4; --accent-soft:#3a2234; --done:#6fcf9f; --urgent:#f0946f; --urgent-soft:#3d2219; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.5}
+.wrap{max-width:720px;margin:0 auto;padding-block:40px 64px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  display:flex;flex-direction:column;gap:28px}
+header{display:flex;flex-direction:column;gap:10px}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:600}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(30px,6vw,44px);line-height:1.05;margin:0;text-wrap:balance}
+.lede{color:var(--muted);margin:0;max-width:60ch}
+.goals{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-size:13px;padding:5px 11px;border-radius:999px;background:var(--accent-soft);color:var(--fg)}
+.chip b{color:var(--accent)}
+.progress{display:flex;flex-direction:column;gap:6px}
+.bar{height:8px;border-radius:999px;background:var(--line);overflow:hidden}
+.bar span{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+.progress small{color:var(--muted);font-variant-numeric:tabular-nums}
+section{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:12px}
+section.urgent{border-color:var(--urgent);box-shadow:inset 4px 0 0 var(--urgent)}
+.phase-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+h2{font-family:var(--display);font-weight:600;font-size:21px;margin:0}
+h2 .n{color:var(--accent);margin-right:6px}
+.when{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.urgent .when{color:var(--urgent);background:var(--urgent-soft);padding:2px 9px;border-radius:999px;font-weight:600}
+ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+li label{display:flex;gap:12px;align-items:flex-start;padding:8px 6px;border-radius:8px;cursor:pointer}
+li label:hover{background:var(--accent-soft)}
+input[type=checkbox]{appearance:none;flex:none;width:20px;height:20px;margin-top:2px;border:2px solid var(--muted);border-radius:6px;display:grid;place-content:center;cursor:pointer}
+input[type=checkbox]:checked{background:var(--done);border-color:var(--done)}
+input[type=checkbox]:checked::after{content:"";width:10px;height:5px;border:2px solid var(--surface);border-top:0;border-right:0;transform:rotate(-45deg) translate(1px,-1px)}
+input[type=checkbox]:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.t{display:flex;flex-direction:column;gap:2px;min-width:0}
+.t strong{font-weight:600}
+.t span{font-size:14px;color:var(--muted)}
+li:has(input:checked) .t strong{text-decoration:line-through;color:var(--muted)}
+.foot{font-size:13px;color:var(--muted);text-align:center}
+.reset{background:none;border:1px solid var(--line);color:var(--muted);border-radius:8px;padding:6px 12px;font:inherit;font-size:13px;cursor:pointer}
+@media (prefers-reduced-motion:reduce){.bar span{transition:none}}
+
+.tabs{display:flex;gap:6px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:0}
+.tab{background:none;border:0;border-bottom:3px solid transparent;color:var(--muted);font:inherit;font-weight:600;padding:10px 12px;cursor:pointer;display:flex;gap:8px;align-items:center;margin-bottom:-1px}
+.tab[aria-selected="true"]{color:var(--fg);border-bottom-color:var(--accent)}
+.tab:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+.tab .k{font-size:12px;font-variant-numeric:tabular-nums;background:var(--accent-soft);color:var(--accent);padding:1px 8px;border-radius:999px}
+.panel{display:flex;flex-direction:column;gap:20px}
+.panel-intro{display:flex;flex-direction:column;gap:10px}
+</style>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Aumentadas Lab · Barcelona · 5 dic 2026</div>
+    <h1>Plan del Lab</h1>
+    <div class="progress">
+      <div class="bar"><span id="fill"></span></div>
+      <small id="count">0 de 0 tareas</small>
+    </div>
+  </header>
+  <nav class="tabs" role="tablist"><button class="tab" role="tab" id="tab-produccion" aria-controls="produccion" aria-selected="true" data-id="produccion">Producción <span class="k" data-k="produccion">0/0</span></button><button class="tab" role="tab" id="tab-convocatoria" aria-controls="convocatoria" aria-selected="false" data-id="convocatoria">Convocatoria <span class="k" data-k="convocatoria">0/0</span></button><button class="tab" role="tab" id="tab-patrocinio" aria-controls="patrocinio" aria-selected="false" data-id="patrocinio">Patrocinadores <span class="k" data-k="patrocinio">0/0</span></button></nav>
+  <div class="panel" role="tabpanel" id="produccion" aria-labelledby="tab-produccion"><div class="panel-intro"><p class="lede">Todo lo que hace falta para que el Lab ocurra. Lo urgente primero: sin eso no puedes difundir.</p><div class="goals">
+      <span class="chip"><b>20</b> participantes</span>
+      <span class="chip">Full day, <b>sábado</b></span>
+      <span class="chip">Ingresos base <b>400 €</b></span>
+    </div></div><section class="urgent">
+    <div class="phase-head"><h2><span class="n">1</span>Bloquea antes de difundir</h2><span class="when">antes del 3 nov</span></div>
+    <ul>
+      <li><label><input type="checkbox" id="p1"><span class="t"><strong>Confirma el espacio en Barcelona</strong><span>Dirección, horario de acceso y capacidad para 20 más mentoras. Por escrito.</span></span></label></li>
+      <li><label><input type="checkbox" id="p2"><span class="t"><strong>Diseña la agenda del día</strong><span>De 10 a 18 h, bloque por bloque, hasta que cada una salga con su Perfil PIA.</span></span></label></li>
+      <li><label><input type="checkbox" id="p3"><span class="t"><strong>Activa el enlace de pago de 20 €</strong><span>Y la política si alguien no puede venir.</span></span></label></li>
+      <li><label><input type="checkbox" id="p4"><span class="t"><strong>Consulta a tu gestoría</strong><span>Cómo facturar patrocinios y cómo declarar las microdonaciones de "Regala una plaza".</span></span></label></li>
+    </ul>
+  </section><section>
+    <div class="phase-head"><h2><span class="n">2</span>Prepara el día</h2><span class="when">4 – 28 nov</span></div>
+    <ul>
+      <li><label><input type="checkbox" id="p5"><span class="t"><strong>Confirma mentoras</strong><span>Cuántas, qué hace cada una y a qué hora llega.</span></span></label></li>
+      <li><label><input type="checkbox" id="p6"><span class="t"><strong>Crea los materiales</strong><span>Plantilla del Perfil PIA, ejercicios, prompts guía y presentación.</span></span></label></li>
+      <li><label><input type="checkbox" id="p7"><span class="t"><strong>Revisa equipos del espacio</strong><span>Wifi para 20, proyector, enchufes y alargadores.</span></span></label></li>
+      <li><label><input type="checkbox" id="p8"><span class="t"><strong>Resuelve el portátil</strong><span>Plan para quien no tenga: préstamo, móvil o trabajo en pareja.</span></span></label></li>
+      <li><label><input type="checkbox" id="p9"><span class="t"><strong>Decide la comida</strong><span>Catering cedido, cada una trae, o lo cubre un patrocinio.</span></span></label></li>
+      <li><label><input type="checkbox" id="p10"><span class="t"><strong>Añade aviso de privacidad (RGPD)</strong><span>En el formulario de postulación.</span></span></label></li>
+      <li><label><input type="checkbox" id="p11"><span class="t"><strong>Prepara la autorización de imagen</strong><span>Para fotos y vídeos. Firmada al llegar.</span></span></label></li>
+    </ul>
+  </section><section>
+    <div class="phase-head"><h2><span class="n">3</span>Lo que se suele olvidar</h2><span class="when">esta semana</span></div>
+    <ul>
+      <li><label><input type="checkbox" id="p12"><span class="t"><strong>Haz el presupuesto mínimo</strong><span>Viaje, alojamiento, impresiones, imprevistos. ¿Lo cubren los 400 € de inscripciones?</span></span></label></li>
+      <li><label><input type="checkbox" id="p13"><span class="t"><strong>Suma una persona de apoyo</strong><span>Aunque sea una voluntaria para difusión, logística o el día del Lab.</span></span></label></li>
+      <li><label><input type="checkbox" id="p14"><span class="t"><strong>Decide tu plan B</strong><span>Si el 15 nov tienes menos de 10 inscritas: ¿amplías difusión, mueves fecha o reduces formato?</span></span></label></li>
+    </ul>
+  </section></div><div class="panel" role="tabpanel" id="convocatoria" aria-labelledby="tab-convocatoria" hidden><div class="panel-intro"><p class="lede">De la landing a la sala llena en cinco fases. Marca cada tarea al terminarla.</p><div class="goals">
+      <span class="chip"><b>20 plazas</b></span>
+      <span class="chip"><b>+5</b> en lista de espera</span>
+      <span class="chip">Beca 80 %: pagan <b>20 €</b></span>
+      <span class="chip">Cierre <b>28 nov</b></span>
+    </div></div><section>
+    <div class="phase-head"><h2><span class="n">1</span>Prepara la convocatoria</h2><span class="when">29 oct – 3 nov</span></div>
+    <ul>
+      <li><label><input type="checkbox" id="c1"><span class="t"><strong>Define perfil y criterios</strong><span>A quién eliges si hay más de 20: experiencia profesional, motivación, compromiso de asistir.</span></span></label></li>
+      <li><label><input type="checkbox" id="c2"><span class="t"><strong>Acorta el formulario para el Lab</strong><span>28 preguntas frenan la inscripción. Deja 8 a 10 clave y pide el resto después de confirmar.</span></span></label></li>
+      <li><label><input type="checkbox" id="c3"><span class="t"><strong>Revisa la landing</strong><span>Fecha, lugar, horario, 20 €, qué se llevan (su Perfil PIA) y un solo botón: reservar plaza.</span></span></label></li>
+      <li><label><input type="checkbox" id="c4"><span class="t"><strong>Configura el pago de 20 €</strong><span>Enlace de pago y política clara si no pueden venir.</span></span></label></li>
+      <li><label><input type="checkbox" id="c5"><span class="t"><strong>Escribe los emails clave</strong><span>Recibimos tu postulación, estás dentro, lista de espera, recordatorio.</span></span></label></li>
+    </ul>
+  </section><section>
+    <div class="phase-head"><h2><span class="n">2</span>Difunde</h2><span class="when">4 – 25 nov</span></div>
+    <ul>
+      <li><label><input type="checkbox" id="c6"><span class="t"><strong>Publica 2 reels por semana</strong><span>Uno AURA para atraer, uno CONVIERTE que lleve a reservar.</span></span></label></li>
+      <li><label><input type="checkbox" id="c7"><span class="t"><strong>Lanza en LinkedIn</strong><span>Post con tu historia y el porqué del Lab. Pide que lo compartan.</span></span></label></li>
+      <li><label><input type="checkbox" id="c8"><span class="t"><strong>Entra en comunidades</strong><span>Grupos de WhatsApp, Facebook y Telegram de profesionales migrantes en Barcelona.</span></span></label></li>
+      <li><label><input type="checkbox" id="c9"><span class="t"><strong>Escribe a 15 entidades aliadas</strong><span>Asociaciones de mujeres y migrantes, ONG de empleo, espacios de igualdad. Pide que difundan.</span></span></label></li>
+      <li><label><input type="checkbox" id="c10"><span class="t"><strong>Activa a tu red</strong><span>Mentoras, patrocinadores y amigas en Barcelona comparten con un texto listo para copiar.</span></span></label></li>
+      <li><label><input type="checkbox" id="c11"><span class="t"><strong>Haz una charla online gratis</strong><span>30 minutos sobre pensar con IA desde tu oficio. Cierra invitando al Lab.</span></span></label></li>
+    </ul>
+  </section><section>
+    <div class="phase-head"><h2><span class="n">3</span>Selecciona y confirma</h2><span class="when">cada semana, hasta 28 nov</span></div>
+    <ul>
+      <li><label><input type="checkbox" id="c12"><span class="t"><strong>Revisa postulaciones cada lunes</strong><span>Responde en menos de 72 horas para no perder el interés.</span></span></label></li>
+      <li><label><input type="checkbox" id="c13"><span class="t"><strong>Elige 20 y 5 en espera</strong><span>Con los criterios de la fase 1.</span></span></label></li>
+      <li><label><input type="checkbox" id="c14"><span class="t"><strong>Confirma con el pago</strong><span>La plaza queda reservada al pagar los 20 €.</span></span></label></li>
+      <li><label><input type="checkbox" id="c15"><span class="t"><strong>Crea el grupo de participantes</strong><span>WhatsApp con bienvenida y presentaciones. Empieza la comunidad antes del Lab.</span></span></label></li>
+    </ul>
+  </section><section>
+    <div class="phase-head"><h2><span class="n">4</span>Prepara la llegada</h2><span class="when">29 nov – 4 dic</span></div>
+    <ul>
+      <li><label><input type="checkbox" id="c16"><span class="t"><strong>Envía la guía práctica</strong><span>Dirección, horario, comida, qué traer (portátil cargado).</span></span></label></li>
+      <li><label><input type="checkbox" id="c17"><span class="t"><strong>Manda una tarea previa</strong><span>Una pregunta sobre su oficio para llegar pensando.</span></span></label></li>
+      <li><label><input type="checkbox" id="c18"><span class="t"><strong>Recuerda a las 48 h y 24 h</strong><span>Pide confirmar asistencia. Si alguien cae, avisa a la lista de espera.</span></span></label></li>
+    </ul>
+  </section><section>
+    <div class="phase-head"><h2><span class="n">5</span>Después del Lab</h2><span class="when">5 – 20 dic</span></div>
+    <ul>
+      <li><label><input type="checkbox" id="c19"><span class="t"><strong>Envía una encuesta corta</strong><span>Nota del 1 al 5, lo mejor, lo que cambiarían.</span></span></label></li>
+      <li><label><input type="checkbox" id="c20"><span class="t"><strong>Recoge testimonios</strong><span>Vídeos cortos y frases para la próxima convocatoria.</span></span></label></li>
+      <li><label><input type="checkbox" id="c21"><span class="t"><strong>Invita a la preventa de Core</strong><span>Precio de lanzamiento y becas, con fecha límite 20 dic.</span></span></label></li>
+    </ul>
+  </section></div><div class="panel" role="tabpanel" id="patrocinio" aria-labelledby="tab-patrocinio" hidden><div class="panel-intro"><p class="lede">Del dossier al cierre en cinco fases. Marca cada tarea al terminarla.</p><div class="goals">
+      <span class="chip"><b>1 entidad</b> valida</span>
+      <span class="chip"><b>2 entidades</b> objetivo</span>
+      <span class="chip">Fecha límite <b>20 dic</b></span>
+      <span class="chip"><b>500 €</b> = 5 plazas</span>
+    </div></div><section>
+    <div class="phase-head"><h2><span class="n">1</span>Prepara la oferta</h2><span class="when">29 oct – 2 nov</span></div>
+    <ul>
+      <li><label><input type="checkbox" id="t1"><span class="t"><strong>Define 3 niveles de apoyo</strong><span>Dinero (500 € / 5 plazas), en especie (espacio, catering, equipos) y talento (mentoras por un día).</span></span></label></li>
+      <li><label><input type="checkbox" id="t2"><span class="t"><strong>Escribe qué recibe la empresa</strong><span>Logo en web y redes, mención en el Lab, informe de impacto con fotos y testimonios.</span></span></label></li>
+      <li><label><input type="checkbox" id="t3"><span class="t"><strong>Revisa patrocinadores.html y sponsors.html</strong><span>Datos propios de patrocinio, distintos a la landing de becarias. Un solo botón de contacto.</span></span></label></li>
+      <li><label><input type="checkbox" id="t4"><span class="t"><strong>Crea un dossier de 1 página</strong><span>Problema, Lab, impacto esperado, niveles y contacto. Listo para adjuntar en PDF.</span></span></label></li>
+      <li><label><input type="checkbox" id="t5"><span class="t"><strong>Deja listo el cobro</strong><span>Plantilla de factura como autónoma y datos de pago claros.</span></span></label></li>
+    </ul>
+  </section><section>
+    <div class="phase-head"><h2><span class="n">2</span>Arma tu lista objetivo</h2><span class="when">3 – 6 nov</span></div>
+    <ul>
+      <li><label><input type="checkbox" id="t6"><span class="t"><strong>Lista 30 entidades en Barcelona</strong><span>Empresas con RSC o diversidad, fundaciones, coworkings, escuelas de IA y tech, asociaciones de mujeres y migrantes.</span></span></label></li>
+      <li><label><input type="checkbox" id="t7"><span class="t"><strong>Marca tus 10 contactos calientes</strong><span>Gente que ya te conoce o te puede presentar. Empieza por ahí.</span></span></label></li>
+      <li><label><input type="checkbox" id="t8"><span class="t"><strong>Busca a la persona correcta</strong><span>Responsable de RSC, marketing o people en LinkedIn. Nombre y cargo, no info@.</span></span></label></li>
+      <li><label><input type="checkbox" id="t9"><span class="t"><strong>Monta un tracker simple</strong><span>Entidad, contacto, nivel propuesto, fecha de contacto, estado.</span></span></label></li>
+    </ul>
+  </section><section>
+    <div class="phase-head"><h2><span class="n">3</span>Contacta</h2><span class="when">6 – 22 nov</span></div>
+    <ul>
+      <li><label><input type="checkbox" id="t10"><span class="t"><strong>Escribe tu mensaje en frío</strong><span>4 líneas: quién eres, qué haces, qué pides, qué ganan. Versión LinkedIn y versión email.</span></span></label></li>
+      <li><label><input type="checkbox" id="t11"><span class="t"><strong>Envía 10 contactos por semana</strong><span>Semana 1: los 10 calientes. Semanas 2 y 3: el resto de la lista.</span></span></label></li>
+      <li><label><input type="checkbox" id="t12"><span class="t"><strong>Haz seguimiento a los 4 días</strong><span>Un mensaje corto con un dato nuevo: inscritas, mentoras confirmadas, espacio.</span></span></label></li>
+      <li><label><input type="checkbox" id="t13"><span class="t"><strong>Pide llamadas de 15 minutos</strong><span>Lleva el dossier y una pregunta: qué nivel encaja mejor con vosotros.</span></span></label></li>
+      <li><label><input type="checkbox" id="t14"><span class="t"><strong>Publica tu búsqueda en LinkedIn</strong><span>Un post contando el Lab y pidiendo presentaciones a empresas aliadas.</span></span></label></li>
+    </ul>
+  </section><section>
+    <div class="phase-head"><h2><span class="n">4</span>Cierra</h2><span class="when">hasta 28 nov</span></div>
+    <ul>
+      <li><label><input type="checkbox" id="t15"><span class="t"><strong>Confirma por escrito</strong><span>Email con nivel, importe, plazas y qué recibe cada parte.</span></span></label></li>
+      <li><label><input type="checkbox" id="t16"><span class="t"><strong>Emite factura y cobra</strong><span>Antes del Lab, para cerrar plazas.</span></span></label></li>
+      <li><label><input type="checkbox" id="t17"><span class="t"><strong>Pide logo y frase de la empresa</strong><span>Para web, redes y la presentación del día.</span></span></label></li>
+      <li><label><input type="checkbox" id="t18"><span class="t"><strong>Anuncia a cada patrocinador</strong><span>Post de agradecimiento y etiqueta. Da prueba social para los siguientes.</span></span></label></li>
+    </ul>
+  </section><section>
+    <div class="phase-head"><h2><span class="n">5</span>Fideliza</h2><span class="when">6 – 20 dic</span></div>
+    <ul>
+      <li><label><input type="checkbox" id="t19"><span class="t"><strong>Recoge pruebas el día del Lab</strong><span>Fotos, 3 testimonios en vídeo, Perfiles PIA logrados.</span></span></label></li>
+      <li><label><input type="checkbox" id="t20"><span class="t"><strong>Envía el informe de impacto</strong><span>Una página, en menos de una semana.</span></span></label></li>
+      <li><label><input type="checkbox" id="t21"><span class="t"><strong>Propón patrocinar plazas de Core</strong><span>Completa (450 €) o parcial (225 €) para la cohorte de enero.</span></span></label></li>
+      <li><label><input type="checkbox" id="t22"><span class="t"><strong>Pide una presentación</strong><span>A otra empresa que podría sumarse en 2027.</span></span></label></li>
+    </ul>
+  </section></div>
+  <p class="foot">Tu progreso se guarda en este navegador. <button class="reset" id="reset" type="button">Reiniciar todo</button></p>
+</div>
+<script>
+(function(){
+  var boxes=[].slice.call(document.querySelectorAll('input[type=checkbox]'));
+  var KEY='plan-aumentadas-lab', saved={};
+  try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+  boxes.forEach(function(b){b.checked=!!saved[b.id];b.addEventListener('change',update)});
+  function update(){
+    var done=0,state={};
+    boxes.forEach(function(b){if(b.checked){done++;state[b.id]=1}});
+    document.getElementById('fill').style.width=(done/boxes.length*100)+'%';
+    document.getElementById('count').textContent=done+' de '+boxes.length+' tareas';
+    document.querySelectorAll('[data-k]').forEach(function(k){
+      var p=document.getElementById(k.dataset.k), all=p.querySelectorAll('input[type=checkbox]'), d=p.querySelectorAll('input:checked').length;
+      k.textContent=d+'/'+all.length;
+    });
+    try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}
+  }
+  var tabs=[].slice.call(document.querySelectorAll('.tab'));
+  function show(id){
+    if(!document.getElementById(id)||!document.querySelector('.tab[data-id="'+id+'"]')) id=tabs[0].dataset.id;
+    tabs.forEach(function(t){var on=t.dataset.id===id;t.setAttribute('aria-selected',on);document.getElementById(t.dataset.id).hidden=!on});
+  }
+  tabs.forEach(function(t){t.addEventListener('click',function(){location.hash=t.dataset.id;show(t.dataset.id)})});
+  window.addEventListener('hashchange',function(){show(location.hash.slice(1))});
+  show(location.hash.slice(1));
+  document.getElementById('reset').addEventListener('click',function(){boxes.forEach(function(b){b.checked=false});update()});
+  update();
+})();
+</script>
+
+</body></html>
